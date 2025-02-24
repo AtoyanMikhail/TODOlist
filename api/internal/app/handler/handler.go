@@ -6,6 +6,7 @@ import (
 	"todolist/internal/app/model"
 
 	"github.com/gin-gonic/gin"
+	"log"
 )
 
 type Handler struct {
@@ -31,7 +32,7 @@ func (h *Handler) AddNote() gin.HandlerFunc {
 		}
 
 		if err := h.service.AddNote(ctx.Request.Context(), req.Text); err != nil {
-			ctx.JSON(http.StatusInternalServerError, gin.H{"message": "could not add note"})
+			ctx.JSON(http.StatusInternalServerError, gin.H{"message": "could not add note "})
 			return
 		}
 
@@ -66,6 +67,7 @@ func (h *Handler) GetNotes() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		res, err := h.service.GetNotes(ctx.Request.Context())
 		if err != nil {
+			log.Printf("Error getting notes %s", err)
 			ctx.JSON(http.StatusInternalServerError, gin.H{"message": "could not get notes"})
 			return
 		}
@@ -73,8 +75,7 @@ func (h *Handler) GetNotes() gin.HandlerFunc {
 		ctx.JSON(http.StatusOK, res)
 	}
 }
-
-func (h *Handler) GetNoteByID() gin.HandlerFunc {
+  func (h *Handler) GetNoteByID() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		id, err := strconv.Atoi(ctx.Param("id"))
 		if err != nil || id <= 0 {

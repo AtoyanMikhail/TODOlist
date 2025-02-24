@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    build: ./api
+    ports:
+      - "8080:8000"
+    depends_on:
+      - db
+    environment:
+      DB_URL: "postgresql://root:password@localhost:5433/todolist?sslmode=disable"
+
+volumes:
+  postgres_data:

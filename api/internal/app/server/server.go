@@ -36,7 +36,7 @@ func (s *Server) SetupRoutes(handler handler.Handler) {
 		r.POST("/addnote", handler.AddNote())
 
 		// Edit note
-		r.PUT("/editnote", handler.EditNote())
+		r.PATCH("/editnote", handler.EditNote())
 
 		// Get all notes
 		r.GET("/notes", handler.GetNotes())

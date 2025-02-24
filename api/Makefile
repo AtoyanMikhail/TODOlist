@@ -1,14 +1,14 @@
 postgresinit:
-	sudo docker run --name postgres15 -p 5433:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=password -d postgres:15-alpine
+	docker run --name postgres15 -p 5433:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=password -d postgres:15-alpine
 
 postgres:
-	sudo docker exec -it postgres15 psql
+	docker exec -it postgres15 psql
 
 createdb:
-	sudo docker exec -it postgres15 createdb --username=root --owner=root todolist
+	docker exec -it postgres15 createdb --username=root --owner=root todolist
 
 dropdb: 
-	sudo docker exec -it postgres15 dropdb notes
+	docker exec -it postgres15 dropdb notes
 
 createamigrationfile:
 	../bin/migrate create -ext sql -dir ./db/migrations add_notes

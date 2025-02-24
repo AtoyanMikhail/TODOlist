@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"os"
 	"todolist/db"
 	"todolist/internal/app/handler"
 	"todolist/internal/app/repository"
@@ -12,7 +13,8 @@ import (
 )
 
 func main() {
-	dbConn, err := db.NewDatabase()
+	dbUrl := os.Getenv("DB_URL")
+	dbConn, err := db.New(dbUrl)
 	if err != nil {
 		log.Fatal("Error creating database connection:", err)
 	}
@@ -27,5 +29,5 @@ func main() {
 
 	server.SetupRoutes(*handler)
 
-	server.Run("localhost", "8080")
+	server.Run("0.0.0.0", "8000")
 }
